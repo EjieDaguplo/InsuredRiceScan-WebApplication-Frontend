@@ -1,31 +1,22 @@
 "use client";
 
 import { Menu, Mail, Search } from "lucide-react";
-import { useState } from "react";
+import { useSidebar } from "./context/SidebarContext";
 
 export default function TopNav() {
-  const [open, setOpen] = useState(false);
+  const { setSidebarOpen } = useSidebar();
 
   return (
-    <nav className="shadow-sm sticky top-0 z-30 p-1">
+    <nav className="shadow-sm bg-white sticky top-0 z-30 p-1">
       <div className="px-4 py-4 flex items-center justify-between">
         <button
-          onClick={() => setOpen(true)}
+          onClick={() => setSidebarOpen(true)}
           className="lg:hidden text-gray-600"
         >
           <Menu size={24} />
         </button>
 
         <div className="relative max-w-md w-full hidden md:block">
-          {/* <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-            size={20}
-          />
-          <input
-            type="text"
-            placeholder="Search farmers, claims..."
-            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-green-500"
-          /> */}
           <p className="text-green-700 font-bold text-4xl">RICE INSURED SCAN</p>
         </div>
 
