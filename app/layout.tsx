@@ -6,6 +6,7 @@ import React from "react";
 import { SidebarProvider } from "./components/context/SidebarContext";
 
 export const metadata: Metadata = {
+  icons: "/insured_rice_logo.jpg",
   title: "Rice Insurance Admin Portal",
   description: "Rice Insurance Admin Portal",
 };
