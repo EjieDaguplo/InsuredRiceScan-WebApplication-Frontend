@@ -48,7 +48,6 @@ export default function Sidebar() {
             <h1 className="text-2xl font-bold text-green-700">ADMIN</h1>
             <p className="text-xs text-gray-500">Municipality of Clarin</p>
           </div>
-
           <button
             onClick={() => setSidebarOpen(false)}
             className="lg:hidden text-gray-600"
