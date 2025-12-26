@@ -16,6 +16,9 @@ export default function TopNav() {
           <Menu size={24} />
         </button>
 
+        <div className="relative max-w-md w-full text-center md:hidden">
+          <p className="text-green-700 font-bold text-4xl">RICE INSURED SCAN</p>
+        </div>
         <div className="relative max-w-md w-full hidden md:block">
           <p className="text-green-700 font-bold text-4xl">RICE INSURED SCAN</p>
         </div>
