@@ -1,7 +1,7 @@
 import { apiRequest } from "./apiClient";
 import { Evidence } from "@/models/claimEvidence";
 
-export const evidenceApi = {
+export const claimsevidenceApi = {
   getAll: () => apiRequest<Evidence[]>("/api/evidence"),
 
   getById: (id: string) => apiRequest<Evidence>(`/api/evidence/${id}`),

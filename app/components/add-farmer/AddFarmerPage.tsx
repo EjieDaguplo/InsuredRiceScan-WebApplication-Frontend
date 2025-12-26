@@ -34,7 +34,7 @@ function AddFarmerPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-4xl mx-full">
       <button
         onClick={() => router.push("/")}
         className="flex items-center gap-2 text-gray-600 hover:text-green-700 mb-6"
@@ -137,7 +137,8 @@ function AddFarmerPage() {
               Contact Number
             </label>
             <input
-              type="tel"
+              type="number"
+              maxLength={11}
               value={formData.contact}
               onChange={(e) =>
                 setFormData({ ...formData, contact: e.target.value })

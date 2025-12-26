@@ -43,7 +43,7 @@ export default function Sidebar() {
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0`}
       >
-        <div className="flex items-center justify-between p-6 border-b">
+        <div className="flex items-center justify-between p-4 border-b border-gray-300">
           <div>
             <h1 className="text-2xl font-bold text-green-700">ADMIN</h1>
             <p className="text-xs text-gray-500">Municipality of Clarin</p>

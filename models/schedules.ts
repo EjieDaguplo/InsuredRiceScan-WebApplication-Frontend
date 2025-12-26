@@ -10,3 +10,9 @@ export interface Schedule {
   created_at: string;
   farmers?: Farmer;
 }
+export interface ScheduleStats {
+  total: number;
+  pending: number;
+  inProgress: number;
+  done: number;
+}
