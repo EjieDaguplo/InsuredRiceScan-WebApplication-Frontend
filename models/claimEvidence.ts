@@ -1,3 +1,6 @@
+import { Farmer } from "./farmers";
+import { Schedule } from "./schedules";
+
 export interface Evidence {
   id: string;
   farmer_id: string;
@@ -7,4 +10,6 @@ export interface Evidence {
   address?: string;
   claim_schedule_id?: string;
   captured_at: string;
+  farmer?: Farmer;
+  claim_schedules?: Schedule | null;
 }

@@ -128,7 +128,7 @@ export default function FarmersListPage() {
   };
 
   return (
-    <div>
+    <div className="w-full">
       {/* Header with Back Button */}
       <button
         onClick={() => router.push("/")}
