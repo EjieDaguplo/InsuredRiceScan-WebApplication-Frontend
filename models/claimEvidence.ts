@@ -13,3 +13,8 @@ export interface Evidence {
   farmer?: Farmer;
   claim_schedules?: Schedule | null;
 }
+export interface EvidenceGroupedByFarmer {
+  farmer: Farmer;
+  evidences: Evidence[];
+  schedule?: Schedule | null;
+}
