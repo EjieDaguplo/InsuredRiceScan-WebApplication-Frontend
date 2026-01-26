@@ -1,12 +1,11 @@
 "use client";
 
 import React from "react";
-import { ArrowLeft, CheckCircle } from "lucide-react";
+import { ArrowLeft, Calendar } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function CheckPage() {
+function CheckPage() {
   const router = useRouter();
-
   return (
     <div>
       <button
@@ -18,12 +17,13 @@ export default function CheckPage() {
       </button>
 
       <div className="bg-white rounded-xl shadow-md p-8 text-center">
-        <CheckCircle size={64} className="mx-auto text-gray-300 mb-4" />
+        <Calendar size={64} className="mx-auto text-gray-300 mb-4" />
         <h2 className="text-2xl font-bold text-gray-800 mb-2">
-          Done Schedules
+          Scheduled Visits
         </h2>
-        <p className="text-gray-600">View completed inspection schedules</p>
+        <p className="text-gray-600">Manage inspection schedules and visits</p>
       </div>
     </div>
   );
 }
+export default CheckPage;
