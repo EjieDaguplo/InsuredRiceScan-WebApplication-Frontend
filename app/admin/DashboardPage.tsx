@@ -10,7 +10,7 @@ import {
   AlertCircle,
   RefreshCw,
 } from "lucide-react";
-import QuickActionCard from "./QuickActionCard";
+import QuickActionCard from "../../app/admin/QuickActionCard";
 import { useRouter } from "next/navigation";
 import { farmersApi } from "@/api/farmersApi";
 import { schedulesApi } from "@/api/schedulesApi";
@@ -66,7 +66,7 @@ function DashboardPage() {
     } catch (err) {
       console.error("Error fetching dashboard data:", err);
       setError(
-        "Failed to load dashboard data. Please check if the backend server is running on http://localhost:3000"
+        "Failed to load dashboard data. Please check if the backend server is running on http://localhost:3000",
       );
     } finally {
       setLoading(false);

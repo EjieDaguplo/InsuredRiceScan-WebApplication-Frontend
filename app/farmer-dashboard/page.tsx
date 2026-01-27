@@ -1,47 +1,62 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useSidebar } from "./context/SidebarContext";
+import { usePathname, useRouter } from "next/navigation";
+import { useSidebar } from "../components/context/SidebarContext";
 import {
-  Users,
+  Home,
+  Camera,
+  Activity,
   FileText,
   Calendar,
-  CheckCircle,
-  UserPlus,
-  Home,
-  X,
-  LogOut,
   User,
+  LogOut,
+  X,
 } from "lucide-react";
 import { useState } from "react";
 
-export default function Sidebar() {
-  const { sidebarOpen, setSidebarOpen } = useSidebar();
+export default function FarmerSidebar() {
+  const pathname = usePathname();
   const router = useRouter();
+  const { sidebarOpen, setSidebarOpen } = useSidebar();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-
-  // Get pathname safely (client-side only)
-  const pathname =
-    typeof window !== "undefined" ? window.location.pathname : "/";
 
   // Get user info from localStorage (client-side only)
   const userName =
     typeof window !== "undefined" ? localStorage.getItem("user_name") : null;
-  const userType =
-    typeof window !== "undefined" ? localStorage.getItem("user_type") : null;
+  const pcicId =
+    typeof window !== "undefined" ? localStorage.getItem("pcic_id") : null;
 
   const menuItems = [
-    { id: "dashboard", label: "Dashboard", icon: Home, path: "/dashboard" },
-    { id: "farmers", label: "Farmers", icon: Users, path: "/farmers" },
     {
-      id: "addFarmer",
-      label: "Add Farmer",
-      icon: UserPlus,
-      path: "/add-farmer",
+      id: "dashboard",
+      label: "Dashboard",
+      icon: Home,
+      path: "/farmer-dashboard",
     },
-    { id: "claims", label: "Claims", icon: FileText, path: "/claims" },
-    { id: "visits", label: "Visits", icon: Calendar, path: "/visits" },
-    { id: "check", label: "Check", icon: CheckCircle, path: "/check" },
+    {
+      id: "capture",
+      label: "Take Evidence",
+      icon: Camera,
+      path: "/farmer/capture-evidence",
+    },
+    {
+      id: "disease",
+      label: "Disease & Cure",
+      icon: Activity,
+      path: "/farmer/disease-diagnosis",
+    },
+    {
+      id: "evidence",
+      label: "My Evidence",
+      icon: FileText,
+      path: "/farmer/evidence",
+    },
+    {
+      id: "schedule",
+      label: "Schedule",
+      icon: Calendar,
+      path: "/farmer/schedule",
+    },
   ];
 
   const handleLogout = async () => {
@@ -65,12 +80,6 @@ export default function Sidebar() {
 
       // Clear all localStorage data
       localStorage.clear();
-
-      // Alternative: Clear specific items only
-      // localStorage.removeItem("user_id");
-      // localStorage.removeItem("user_type");
-      // localStorage.removeItem("user_name");
-      // localStorage.removeItem("token");
 
       // Close sidebar if open
       setSidebarOpen(false);
@@ -114,7 +123,7 @@ export default function Sidebar() {
         {/* Logo/Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div>
-            <h1 className="text-2xl font-bold text-green-700">ADMIN</h1>
+            <h1 className="text-2xl font-bold text-green-700">FARMER</h1>
             <p className="text-xs text-gray-500 mt-1">Rice Insurance Portal</p>
           </div>
           <button
@@ -162,15 +171,13 @@ export default function Sidebar() {
           {/* User Profile Card */}
           <div className="flex items-center gap-3 bg-gray-50 rounded-lg p-3">
             <div className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center text-white font-bold flex-shrink-0">
-              {userName ? userName.charAt(0).toUpperCase() : "A"}
+              <User size={20} />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-gray-800 truncate">
-                {userName || "Admin User"}
+                {userName || "Farmer"}
               </p>
-              <p className="text-xs text-gray-500 capitalize">
-                {userType?.replace("_", " ") || "admin"}
-              </p>
+              <p className="text-xs text-gray-500">{pcicId || "PCIC-XXX"}</p>
             </div>
           </div>
 

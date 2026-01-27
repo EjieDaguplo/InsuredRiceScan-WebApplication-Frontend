@@ -12,11 +12,19 @@ import {
   LogOut,
   X,
 } from "lucide-react";
+import { useState } from "react";
 
 export default function FarmerSidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { sidebarOpen, setSidebarOpen } = useSidebar();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  // Get user info from localStorage (client-side only)
+  const userName =
+    typeof window !== "undefined" ? localStorage.getItem("user_name") : null;
+  const pcicId =
+    typeof window !== "undefined" ? localStorage.getItem("pcic_id") : null;
 
   const menuItems = [
     {
@@ -51,9 +59,46 @@ export default function FarmerSidebar() {
     },
   ];
 
-  const handleLogout = () => {
-    localStorage.clear();
-    router.push("/login");
+  const handleLogout = async () => {
+    try {
+      setIsLoggingOut(true);
+
+      // Optional: Call logout API endpoint
+      try {
+        await fetch("http://localhost:3000/api/auth/logout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      } catch (error) {
+        console.warn(
+          "Logout API call failed, continuing with local cleanup:",
+          error,
+        );
+      }
+
+      // Clear all localStorage data
+      localStorage.clear();
+
+      // Close sidebar if open
+      setSidebarOpen(false);
+
+      // Redirect to login
+      router.push("/login");
+
+      // Optional: Force page reload to clear any cached state
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 100);
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Even if there's an error, still clear session and redirect
+      localStorage.clear();
+      router.push("/login");
+    } finally {
+      setIsLoggingOut(false);
+    }
   };
 
   return (
@@ -83,14 +128,17 @@ export default function FarmerSidebar() {
           </div>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden text-gray-500 hover:text-gray-700"
+            className="lg:hidden text-gray-500 hover:text-gray-700 transition-colors"
           >
             <X size={24} />
           </button>
         </div>
 
         {/* Menu Items */}
-        <nav className="p-4 space-y-2">
+        <nav
+          className="p-4 space-y-2 overflow-y-auto"
+          style={{ height: "calc(100vh - 240px)" }}
+        >
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.path;
@@ -118,27 +166,38 @@ export default function FarmerSidebar() {
           })}
         </nav>
 
-        {/* User Info & Logout */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 space-y-3">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center text-white font-bold">
+        {/* User Info & Logout - Fixed at Bottom */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-white space-y-3">
+          {/* User Profile Card */}
+          <div className="flex items-center gap-3 bg-gray-50 rounded-lg p-3">
+            <div className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center text-white font-bold flex-shrink-0">
               <User size={20} />
             </div>
-            <div>
-              <p className="text-sm font-semibold text-gray-800">
-                {localStorage.getItem("user_name") || "Farmer"}
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-gray-800 truncate">
+                {userName || "Farmer"}
               </p>
-              <p className="text-xs text-gray-500">
-                {localStorage.getItem("pcic_id") || "PCIC-XXX"}
-              </p>
+              <p className="text-xs text-gray-500">{pcicId || "PCIC-XXX"}</p>
             </div>
           </div>
+
+          {/* Logout Button */}
           <button
             onClick={handleLogout}
-            className="w-full bg-red-50 text-red-600 py-2 rounded-lg font-medium hover:bg-red-100 transition-colors flex items-center justify-center gap-2"
+            disabled={isLoggingOut}
+            className="w-full bg-red-50 text-red-600 py-3 rounded-lg font-semibold hover:bg-red-100 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <LogOut size={18} />
-            Logout
+            {isLoggingOut ? (
+              <>
+                <div className="w-4 h-4 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
+                <span>Logging out...</span>
+              </>
+            ) : (
+              <>
+                <LogOut size={18} />
+                <span>Logout</span>
+              </>
+            )}
           </button>
         </div>
       </aside>

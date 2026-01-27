@@ -49,25 +49,31 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (response.ok) {
-        // Store user session
+        // Store user session data
         localStorage.setItem("user_type", data.userType);
         localStorage.setItem("user_id", data.userId);
 
-        // Store additional user info based on type
+        // Store user-specific information
         if (data.userType === "farmer") {
-          localStorage.setItem("user_name", data.user.fname || "Farmer");
+          const farmerName = data.user.fname || "Farmer";
+          localStorage.setItem("user_name", farmerName);
           localStorage.setItem("pcic_id", data.user.pcicid);
-          router.push("/farmer-dashboard"); // ✅ Redirect farmers here
-        } else {
+          router.push("/farmer-dashboard");
+        } else if (data.userType === "admin") {
           localStorage.setItem("user_name", data.user.name);
-          router.push("/dashboard"); // Admin/Super Admin
+          localStorage.setItem("user_email", data.user.email);
+          router.push("/dashboard");
+        } else if (data.userType === "super_admin") {
+          localStorage.setItem("user_name", data.user.name);
+          localStorage.setItem("user_email", data.user.email);
+          router.push("/dashboard");
         }
       } else {
         setError(data.message || "Invalid credentials");
       }
     } catch (err) {
       console.error("Login error:", err);
-      setError("Connection error");
+      setError("Connection error. Make sure backend is running.");
     } finally {
       setLoading(false);
     }
