@@ -52,24 +52,22 @@ export default function LoginPage() {
         // Store user session
         localStorage.setItem("user_type", data.userType);
         localStorage.setItem("user_id", data.userId);
-        localStorage.setItem("token", data.token);
 
-        // Redirect based on user type
-        router.push("/dashboard");
+        // Store additional user info based on type
+        if (data.userType === "farmer") {
+          localStorage.setItem("user_name", data.user.fname || "Farmer");
+          localStorage.setItem("pcic_id", data.user.pcicid);
+          router.push("/farmer-dashboard"); // ✅ Redirect farmers here
+        } else {
+          localStorage.setItem("user_name", data.user.name);
+          router.push("/dashboard"); // Admin/Super Admin
+        }
       } else {
         setError(data.message || "Invalid credentials");
       }
     } catch (err) {
       console.error("Login error:", err);
-      setError("Connection error. Using demo mode: admin/admin");
-
-      // Demo mode fallback
-      setTimeout(() => {
-        if (insuranceId === "admin" && password === "admin") {
-          localStorage.setItem("user_type", "admin");
-          router.push("/dashboard");
-        }
-      }, 1000);
+      setError("Connection error");
     } finally {
       setLoading(false);
     }
@@ -124,9 +122,6 @@ export default function LoginPage() {
             placeholder="Enter email or insurance ID"
             className="w-full pl-12 pr-4 py-4 bg-white rounded-xl border-2 border-white/50 focus:border-white focus:outline-none text-gray-800 placeholder-gray-400"
           />
-          <label className="absolute -top-2 left-4 bg-white px-2 text-xs text-gray-600">
-            Email / Insurance ID
-          </label>
         </div>
 
         {/* Password Field */}
@@ -149,9 +144,6 @@ export default function LoginPage() {
           >
             {passwordVisible ? <Eye size={20} /> : <EyeOff size={20} />}
           </button>
-          <label className="absolute -top-2 left-4 bg-white px-2 text-xs text-gray-600">
-            Password
-          </label>
         </div>
 
         {/* Login Button */}
@@ -166,11 +158,6 @@ export default function LoginPage() {
             "Sign In"
           )}
         </button>
-
-        {/* Demo Credentials */}
-        <div className="bg-white/10 rounded-xl p-3 text-white text-xs text-center">
-          Demo: admin/admin or superadmin/admin
-        </div>
       </div>
     </div>
   );

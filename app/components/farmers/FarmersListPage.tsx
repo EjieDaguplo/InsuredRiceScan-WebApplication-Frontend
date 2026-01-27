@@ -59,7 +59,7 @@ export default function FarmersListPage() {
     } catch (err) {
       console.error("Error fetching farmers:", err);
       setError(
-        "Failed to load farmers. Please check if the backend server is running."
+        "Failed to load farmers. Please check if the backend server is running.",
       );
     } finally {
       setLoading(false);
@@ -83,7 +83,7 @@ export default function FarmersListPage() {
           farmer.lname?.toLowerCase().includes(query) ||
           farmer.pcicid?.toLowerCase().includes(query) ||
           farmer.contact?.toLowerCase().includes(query) ||
-          farmer.address?.toLowerCase().includes(query)
+          farmer.address?.toLowerCase().includes(query),
       );
       setFilteredFarmers(filtered);
     }
@@ -94,7 +94,7 @@ export default function FarmersListPage() {
     if (!selectedFarmer) return;
 
     const confirmDelete = window.confirm(
-      `Are you sure you want to delete ${selectedFarmer.fname} ${selectedFarmer.lname}? This action cannot be undone.`
+      `Are you sure you want to delete ${selectedFarmer.fname} ${selectedFarmer.lname}? This action cannot be undone.`,
     );
 
     if (!confirmDelete) return;
@@ -362,7 +362,7 @@ export default function FarmersListPage() {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
-                    }
+                    },
                   )}
                 </p>
               </div>
