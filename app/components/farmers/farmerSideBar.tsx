@@ -1,3 +1,4 @@
+//FARMER SIDEBAR COMPONENT
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
@@ -37,25 +38,25 @@ export default function FarmerSidebar() {
       id: "capture",
       label: "Take Evidence",
       icon: Camera,
-      path: "/farmer/capture-evidence",
+      path: "/components/farmers/capture-evidence",
     },
     {
       id: "disease",
       label: "Disease & Cure",
       icon: Activity,
-      path: "/farmer/disease-diagnosis",
+      path: "/components/farmers/disease-diagnosis",
     },
     {
       id: "evidence",
       label: "My Evidence",
       icon: FileText,
-      path: "/farmer/evidence",
+      path: "/components/farmers/evidence",
     },
     {
       id: "schedule",
       label: "Schedule",
       icon: Calendar,
-      path: "/farmer/schedule",
+      path: "/components/farmers/schedule",
     },
   ];
 

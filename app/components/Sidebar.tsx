@@ -1,3 +1,4 @@
+// ADMIN SIDEBAR COMPONENT
 "use client";
 
 import { useRouter } from "next/navigation";

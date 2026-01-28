@@ -33,7 +33,7 @@ export default function ProtectedRoute({
         if (userType === "farmer") {
           router.push("/farmer-dashboard");
         } else {
-          router.push("/dashboard");
+          router.push("/admin-dashboard");
         }
         return;
       }
