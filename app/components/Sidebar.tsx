@@ -1,7 +1,6 @@
-// ADMIN SIDEBAR COMPONENT
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation"; // ✅ Import usePathname
 import { useSidebar } from "./context/SidebarContext";
 import {
   Users,
@@ -12,44 +11,46 @@ import {
   Home,
   X,
   LogOut,
-  User,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Sidebar() {
   const { sidebarOpen, setSidebarOpen } = useSidebar();
   const router = useRouter();
+  const pathname = usePathname(); //Use Next.js hook instead of window.location
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
+  const [userType, setUserType] = useState<string | null>(null);
 
-  // Get pathname safely (client-side only)
-  const pathname =
-    typeof window !== "undefined" ? window.location.pathname : "/";
-
-  // Get user info from localStorage (client-side only)
-  const userName =
-    typeof window !== "undefined" ? localStorage.getItem("user_name") : null;
-  const userType =
-    typeof window !== "undefined" ? localStorage.getItem("user_type") : null;
+  // Load user data after mount
+  useEffect(() => {
+    setUserName(localStorage.getItem("user_name"));
+    setUserType(localStorage.getItem("user_type"));
+  }, []);
 
   const menuItems = [
-    { id: "dashboard", label: "Dashboard", icon: Home, path: "/dashboard" },
-    { id: "farmers", label: "Farmers", icon: Users, path: "/farmers" },
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      icon: Home,
+      path: "/admin/dashboard",
+    },
+    { id: "farmers", label: "Farmers", icon: Users, path: "/admin/farmers" },
     {
       id: "addFarmer",
       label: "Add Farmer",
       icon: UserPlus,
-      path: "/add-farmer",
+      path: "/admin/add-farmer",
     },
-    { id: "claims", label: "Claims", icon: FileText, path: "/claims" },
-    { id: "visits", label: "Visits", icon: Calendar, path: "/visits" },
-    { id: "check", label: "Check", icon: CheckCircle, path: "/check" },
+    { id: "claims", label: "Claims", icon: FileText, path: "/admin/claims" },
+    { id: "visits", label: "Visits", icon: Calendar, path: "/admin/visits" },
+    { id: "check", label: "Check", icon: CheckCircle, path: "/admin/check" },
   ];
 
   const handleLogout = async () => {
     try {
       setIsLoggingOut(true);
 
-      // Optional: Call logout API endpoint
       try {
         await fetch("http://localhost:3000/api/auth/logout", {
           method: "POST",
@@ -64,28 +65,15 @@ export default function Sidebar() {
         );
       }
 
-      // Clear all localStorage data
       localStorage.clear();
-
-      // Alternative: Clear specific items only
-      // localStorage.removeItem("user_id");
-      // localStorage.removeItem("user_type");
-      // localStorage.removeItem("user_name");
-      // localStorage.removeItem("token");
-
-      // Close sidebar if open
       setSidebarOpen(false);
-
-      // Redirect to login
       router.push("/login");
 
-      // Optional: Force page reload to clear any cached state
       setTimeout(() => {
         window.location.href = "/login";
       }, 100);
     } catch (error) {
       console.error("Logout error:", error);
-      // Even if there's an error, still clear session and redirect
       localStorage.clear();
       router.push("/login");
     } finally {
@@ -95,15 +83,13 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile Overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0  bg-opacity-50 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
-      {/* Sidebar */}
       <aside
         className={`
         fixed top-0 left-0 z-50 h-screen w-64 bg-white shadow-lg
@@ -112,7 +98,6 @@ export default function Sidebar() {
         lg:translate-x-0
       `}
       >
-        {/* Logo/Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div>
             <h1 className="text-2xl font-bold text-green-700">ADMIN</h1>
@@ -126,14 +111,13 @@ export default function Sidebar() {
           </button>
         </div>
 
-        {/* Menu Items */}
         <nav
           className="p-4 space-y-2 overflow-y-auto"
           style={{ height: "calc(100vh - 240px)" }}
         >
           {menuItems.map((item) => {
             const Icon = item.icon;
-            const isActive = pathname === item.path;
+            const isActive = pathname === item.path; // ✅ Now uses usePathname hook
             return (
               <button
                 key={item.id}
@@ -158,9 +142,7 @@ export default function Sidebar() {
           })}
         </nav>
 
-        {/* User Info & Logout - Fixed at Bottom */}
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-white space-y-3">
-          {/* User Profile Card */}
           <div className="flex items-center gap-3 bg-gray-50 rounded-lg p-3">
             <div className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center text-white font-bold flex-shrink-0">
               {userName ? userName.charAt(0).toUpperCase() : "A"}
@@ -175,7 +157,6 @@ export default function Sidebar() {
             </div>
           </div>
 
-          {/* Logout Button */}
           <button
             onClick={handleLogout}
             disabled={isLoggingOut}

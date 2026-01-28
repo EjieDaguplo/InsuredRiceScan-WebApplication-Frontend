@@ -15,10 +15,10 @@ export default function CaptureEvidencePage() {
         <ArrowLeft size={20} />
         Back to Dashboard
       </button>
-      <div className="bg-white rounded-xl shadow-md p-16 text-center">
+      <div className="p-16 text-center pt-50">
         <Hammer
           size={80}
-          className="mx-auto text-orange-500 mb-6 animate-bounce"
+          className="mx-auto text-orange-600 mb-6 animate-bounce"
         />
         <h1 className="text-4xl font-bold text-gray-800 mb-3">
           Under Development

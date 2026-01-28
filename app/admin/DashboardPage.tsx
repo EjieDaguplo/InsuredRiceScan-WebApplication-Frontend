@@ -83,28 +83,28 @@ function DashboardPage() {
       value: loading ? "..." : stats.totalFarmers.toString(),
       icon: Users,
       color: "bg-blue-500",
-      href: "/farmers",
+      href: "/admin/farmers",
     },
     {
       label: "Active Claims",
       value: loading ? "..." : stats.activeClaims.toString(),
       icon: FileText,
       color: "bg-orange-500",
-      href: "/claims",
+      href: "/admin/claims",
     },
     {
       label: "Scheduled Visits",
       value: loading ? "..." : stats.scheduledVisits.toString(),
       icon: Calendar,
       color: "bg-purple-500",
-      href: "/visits",
+      href: "/admin/visits",
     },
     {
       label: "Completed",
       value: loading ? "..." : stats.completedSchedules.toString(),
       icon: CheckCircle,
       color: "bg-green-500",
-      href: "/check",
+      href: "/admin/check",
     },
   ];
 
@@ -185,7 +185,7 @@ function DashboardPage() {
               Create farmer accounts and manage registrations
             </p>
             <button
-              onClick={() => router.push("/add-farmer")}
+              onClick={() => router.push("/admin/add-farmer")}
               className="bg-white text-green-700 px-8 py-3 rounded-lg font-semibold hover:bg-green-50 transition-colors inline-flex items-center gap-2"
             >
               <UserPlus size={20} />
@@ -206,25 +206,25 @@ function DashboardPage() {
             icon={Users}
             label="Farmers"
             color="bg-blue-500"
-            onClick={() => router.push("/farmers")}
+            onClick={() => router.push("/admin/farmers")}
           />
           <QuickActionCard
             icon={FileText}
             label="Claims"
             color="bg-orange-500"
-            onClick={() => router.push("/claims")}
+            onClick={() => router.push("/admin/claims")}
           />
           <QuickActionCard
             icon={Calendar}
             label="Visit"
             color="bg-purple-500"
-            onClick={() => router.push("/visits")}
+            onClick={() => router.push("/admin/visits")}
           />
           <QuickActionCard
             icon={CheckCircle}
             label="Check"
             color="bg-green-500"
-            onClick={() => router.push("/check")}
+            onClick={() => router.push("/admin/check")}
           />
         </div>
       </div>

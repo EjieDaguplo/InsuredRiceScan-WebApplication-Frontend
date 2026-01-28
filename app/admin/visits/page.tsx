@@ -1,6 +1,6 @@
 "use client";
 
-import VisitsPage from "../components/visits/VisitsPage";
+import VisitsPage from "../VisitsPage";
 
 export default function Visits() {
   return <VisitsPage />;

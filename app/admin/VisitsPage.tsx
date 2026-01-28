@@ -27,7 +27,7 @@ export default function VisitsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
-    null
+    null,
   );
 
   // Pagination
@@ -89,7 +89,7 @@ export default function VisitsPage() {
     <div>
       {/* Header */}
       <button
-        onClick={() => router.push("/")}
+        onClick={() => router.push("/admin/dashboard")}
         className="flex items-center gap-2 text-gray-600 hover:text-green-700 mb-6 transition-colors"
       >
         <ArrowLeft size={20} />

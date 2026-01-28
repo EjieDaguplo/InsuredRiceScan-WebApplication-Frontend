@@ -1,6 +1,6 @@
 "use client";
 
-import FarmersListPage from "../components/farmers/farmersListPage";
+import FarmersListPage from "../farmersListPage";
 
 export default function FarmersPage() {
   return <FarmersListPage />;

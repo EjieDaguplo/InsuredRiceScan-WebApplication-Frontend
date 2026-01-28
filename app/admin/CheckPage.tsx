@@ -9,7 +9,7 @@ function CheckPage() {
   return (
     <div>
       <button
-        onClick={() => router.push("/")}
+        onClick={() => router.push("/admin/dashboard")}
         className="flex items-center gap-2 text-gray-600 hover:text-green-700 mb-6"
       >
         <ArrowLeft size={20} />

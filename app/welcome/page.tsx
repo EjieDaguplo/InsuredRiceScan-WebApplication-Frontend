@@ -44,7 +44,6 @@ export default function WelcomePage() {
           </p>
         </div>
 
-        {/* Get Started Button */}
         <button
           onClick={() => router.push("/login")}
           className="w-4/5 mx-auto bg-white text-green-800 py-4 px-8 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 flex items-center justify-center gap-3"

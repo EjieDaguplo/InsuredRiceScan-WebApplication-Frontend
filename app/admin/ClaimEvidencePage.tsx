@@ -68,7 +68,7 @@ function ClaimEvidencePage() {
   };
 
   const groupEvidenceByFarmer = (
-    evidences: Evidence[]
+    evidences: Evidence[],
   ): EvidenceGroupedByFarmer[] => {
     console.log("Grouping evidences:", evidences.length);
     const farmerMap = new Map<string, EvidenceGroupedByFarmer>();
@@ -108,8 +108,8 @@ function ClaimEvidencePage() {
     // Convert to array and sort by farmer name
     const result = Array.from(farmerMap.values()).sort((a, b) =>
       `${a.farmer.fname} ${a.farmer.lname}`.localeCompare(
-        `${b.farmer.fname} ${b.farmer.lname}`
-      )
+        `${b.farmer.fname} ${b.farmer.lname}`,
+      ),
     );
 
     console.log("Final grouped result:", result.length, "farmers");
@@ -120,7 +120,7 @@ function ClaimEvidencePage() {
     <div>
       {/* Header */}
       <button
-        onClick={() => router.push("/")}
+        onClick={() => router.push("/admin/dashboard")}
         className="flex items-center gap-2 text-gray-600 hover:text-green-700 mb-6 transition-colors"
       >
         <ArrowLeft size={20} />
@@ -233,7 +233,7 @@ function FarmerEvidenceCard({ group, onDelete }: FarmerEvidenceCardProps) {
 
   const prevImage = () => {
     setCurrentImageIndex(
-      (prev) => (prev - 1 + evidences.length) % evidences.length
+      (prev) => (prev - 1 + evidences.length) % evidences.length,
     );
   };
 
@@ -251,13 +251,13 @@ function FarmerEvidenceCard({ group, onDelete }: FarmerEvidenceCardProps) {
     try {
       // Delete each evidence image for this farmer
       const deletePromises = evidences.map((evidence) =>
-        claimsevidenceApi.delete(evidence.id)
+        claimsevidenceApi.delete(evidence.id),
       );
 
       await Promise.all(deletePromises);
 
       alert(
-        `Successfully deleted ${evidences.length} evidence images for ${farmer.fname} ${farmer.lname}`
+        `Successfully deleted ${evidences.length} evidence images for ${farmer.fname} ${farmer.lname}`,
       );
       setShowDeleteDialog(false);
       onDelete(); // Refresh the list
@@ -464,7 +464,7 @@ function FarmerEvidenceCard({ group, onDelete }: FarmerEvidenceCardProps) {
                   onClick={() =>
                     window.open(
                       `https://www.google.com/maps?q=${currentEvidence.latitude},${currentEvidence.longitude}`,
-                      "_blank"
+                      "_blank",
                     )
                   }
                   className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors"

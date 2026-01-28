@@ -51,11 +51,11 @@ export default function LayoutWrapper({ children }: LayoutWrapperProps) {
     pathname === "/farmer-dashboard" || pathname?.startsWith("/farmer/");
   const isAdminPath =
     pathname === "/admin-dashboard" ||
-    pathname?.startsWith("/farmers") ||
-    pathname?.startsWith("/add-farmer") ||
-    pathname?.startsWith("/claims") ||
-    pathname?.startsWith("/visits") ||
-    pathname?.startsWith("/check");
+    pathname?.startsWith("/admin/farmers") ||
+    pathname?.startsWith("/admin/add-farmer") ||
+    pathname?.startsWith("/admin/claims") ||
+    pathname?.startsWith("/admin/visits") ||
+    pathname?.startsWith("/admin/check");
 
   // Decide which layout to show
   let showFarmerLayout = false;
