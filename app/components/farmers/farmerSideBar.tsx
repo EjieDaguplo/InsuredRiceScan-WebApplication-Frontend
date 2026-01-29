@@ -14,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
+import { deleteAllCookies } from "@/app/utils/cookies";
 
 export default function FarmerSidebar() {
   const pathname = usePathname();
@@ -32,7 +33,7 @@ export default function FarmerSidebar() {
       id: "dashboard",
       label: "Dashboard",
       icon: Home,
-      path: "/farmer-dashboard",
+      path: "/components/farmers/dashboard",
     },
     {
       id: "capture",
@@ -59,44 +60,51 @@ export default function FarmerSidebar() {
       path: "/components/farmers/schedule",
     },
   ];
+  const deleteCookie = (name: string) => {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+  };
 
   const handleLogout = async () => {
     try {
       setIsLoggingOut(true);
 
-      // Optional: Call logout API endpoint
+      //DEBUG COOKIES
+      deleteAllCookies();
+
+      //Clear cookies FIRST
+      deleteCookie("user_type");
+      deleteCookie("user_id");
+      deleteCookie("user_name");
+
+      // Clear all storage
+      localStorage.clear();
+      sessionStorage.clear();
+
+      // Optional API call
       try {
         await fetch("http://localhost:3000/api/auth/logout", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
         });
       } catch (error) {
-        console.warn(
-          "Logout API call failed, continuing with local cleanup:",
-          error,
-        );
+        console.warn("Logout API call failed:", error);
       }
 
-      // Clear all localStorage data
-      localStorage.clear();
-
-      // Close sidebar if open
       setSidebarOpen(false);
 
-      // Redirect to login
-      router.push("/login");
-
-      // Optional: Force page reload to clear any cached state
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 100);
+      // Force hard redirect
+      window.location.href = "/login";
     } catch (error) {
       console.error("Logout error:", error);
-      // Even if there's an error, still clear session and redirect
+
+      deleteCookie("user_type");
+      deleteCookie("user_id");
+      deleteCookie("user_name");
       localStorage.clear();
-      router.push("/login");
+      sessionStorage.clear();
+
+      window.location.href = "/login";
     } finally {
       setIsLoggingOut(false);
     }
@@ -107,7 +115,7 @@ export default function FarmerSidebar() {
       {/* Mobile Overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}

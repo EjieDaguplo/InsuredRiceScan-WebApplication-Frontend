@@ -26,6 +26,13 @@ export default function LoginPage() {
     return () => clearTimeout(timer);
   }, []);
 
+  // ✅ Helper function to set cookies
+  const setCookie = (name: string, value: string, days: number = 7) => {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = `${name}=${value}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+  };
+
   const handleSubmit = async () => {
     setError("");
 
@@ -49,24 +56,37 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (response.ok) {
-        // Store user session data
+        // CRITICAL: Set BOTH localStorage AND cookies
+
+        // Set localStorage
         localStorage.setItem("user_type", data.userType);
         localStorage.setItem("user_id", data.userId);
+
+        // Set cookies (for middleware protection)
+        setCookie("user_type", data.userType, 7);
+        setCookie("user_id", data.userId, 7);
 
         // Store user-specific information
         if (data.userType === "farmer") {
           const farmerName = data.user.fname || "Farmer";
           localStorage.setItem("user_name", farmerName);
           localStorage.setItem("pcic_id", data.user.pcicid);
-          router.push("/farmer-dashboard");
-        } else if (data.userType === "admin") {
+
+          setCookie("user_name", farmerName, 7);
+
+          // Use window.location for hard redirect
+          window.location.href = "/farmers/dashboard";
+        } else if (
+          data.userType === "admin" ||
+          data.userType === "super_admin"
+        ) {
           localStorage.setItem("user_name", data.user.name);
           localStorage.setItem("user_email", data.user.email);
-          router.push("/dashboard");
-        } else if (data.userType === "super_admin") {
-          localStorage.setItem("user_name", data.user.name);
-          localStorage.setItem("user_email", data.user.email);
-          router.push("/dashboard");
+
+          setCookie("user_name", data.user.name, 7);
+
+          // Use window.location for hard redirect
+          window.location.href = "/admin/dashboard";
         }
       } else {
         setError(data.message || "Invalid credentials");

@@ -145,28 +145,28 @@ export default function FarmerDashboardPage() {
             label="Take Evidence"
             description="Capture photos of crop damage"
             color="bg-blue-500"
-            onClick={() => router.push("/farmer/capture-evidence")}
+            onClick={() => router.push("/farmers/capture-evidence")}
           />
           <QuickActionCard
             icon={Activity}
             label="Disease & Cure"
             description="Diagnose crop diseases"
             color="bg-orange-500"
-            onClick={() => router.push("/farmer/disease-diagnosis")}
+            onClick={() => router.push("/farmers/disease-diagnosis")}
           />
           <QuickActionCard
             icon={FileText}
             label="Submitted Evidence"
             description="View your submissions"
             color="bg-green-500"
-            onClick={() => router.push("/farmer/evidence")}
+            onClick={() => router.push("/farmers/evidence")}
           />
           <QuickActionCard
             icon={Calendar}
             label="View Schedule"
             description="Check inspection dates"
             color="bg-purple-500"
-            onClick={() => router.push("/farmer/schedule")}
+            onClick={() => router.push("/farmers/schedule")}
           />
         </div>
       </div>

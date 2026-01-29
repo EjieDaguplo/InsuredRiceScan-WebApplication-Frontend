@@ -13,6 +13,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { useState, useEffect } from "react";
+import { deleteAllCookies } from "../utils/cookies";
 
 export default function Sidebar() {
   const { sidebarOpen, setSidebarOpen } = useSidebar();
@@ -47,40 +48,61 @@ export default function Sidebar() {
     { id: "check", label: "Check", icon: CheckCircle, path: "/admin/check" },
   ];
 
+  // Helper function to delete cookies
+  const deleteCookie = (name: string) => {
+    // Delete with root path
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    // Also try to delete without path (just in case)
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+  };
+
   const handleLogout = async () => {
     try {
       setIsLoggingOut(true);
 
+      //DEBUG COOKIES
+      deleteAllCookies();
+
+      // Clear cookies FIRST
+      deleteCookie("user_type");
+      deleteCookie("user_id");
+      deleteCookie("user_name");
+
+      //Clear localStorage
+      localStorage.clear();
+
+      // Clear session storage too (just in case)
+      sessionStorage.clear();
+
+      // Call logout API (optional, doesn't affect client-side session)
       try {
         await fetch("http://localhost:3000/api/auth/logout", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
         });
       } catch (error) {
-        console.warn(
-          "Logout API call failed, continuing with local cleanup:",
-          error,
-        );
+        console.warn("Logout API call failed:", error);
       }
 
-      localStorage.clear();
       setSidebarOpen(false);
-      router.push("/login");
 
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 100);
+      //Force hard redirect (not Next.js router)
+      window.location.href = "/login";
     } catch (error) {
       console.error("Logout error:", error);
+
+      // Even on error, clear everything
+      deleteCookie("user_type");
+      deleteCookie("user_id");
+      deleteCookie("user_name");
       localStorage.clear();
-      router.push("/login");
+      sessionStorage.clear();
+
+      window.location.href = "/login";
     } finally {
       setIsLoggingOut(false);
     }
   };
-
   return (
     <>
       {sidebarOpen && (

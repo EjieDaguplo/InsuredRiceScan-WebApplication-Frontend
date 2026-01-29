@@ -10,7 +10,7 @@ interface ProtectedRouteProps {
 
 export default function ProtectedRoute({
   children,
-  allowedRoles,
+  allowedRoles = ["admin", "super_admin"],
 }: ProtectedRouteProps) {
   const router = useRouter();
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -21,23 +21,32 @@ export default function ProtectedRoute({
       const userType = localStorage.getItem("user_type");
       const userId = localStorage.getItem("user_id");
 
+      console.log("Protected Route Check:", {
+        userType,
+        userId,
+        allowedRoles,
+      });
+
       // Not logged in
       if (!userType || !userId) {
+        console.log("Not authenticated, redirecting to login");
         router.push("/login");
         return;
       }
 
       // Check role authorization
-      if (allowedRoles && !allowedRoles.includes(userType)) {
+      if (!allowedRoles.includes(userType)) {
+        console.log("Wrong role, redirecting");
         // Redirect to appropriate dashboard
         if (userType === "farmer") {
-          router.push("/farmer-dashboard");
+          router.push("/components/farmers/dashboard");
         } else {
-          router.push("/admin-dashboard");
+          router.push("/admin/dashboard");
         }
         return;
       }
 
+      console.log("Authorized");
       setIsAuthorized(true);
       setIsLoading(false);
     };
