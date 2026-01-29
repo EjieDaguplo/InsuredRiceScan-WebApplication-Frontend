@@ -26,7 +26,7 @@ export default function LoginPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  // ✅ Helper function to set cookies
+  // Helper function to set cookies
   const setCookie = (name: string, value: string, days: number = 7) => {
     const expires = new Date();
     expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
