@@ -28,7 +28,7 @@ export default function FarmersListPage() {
   const [error, setError] = useState<string | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  // Use pagination hook
+  // Use pagination hooks
   const {
     currentPage,
     totalPages,
