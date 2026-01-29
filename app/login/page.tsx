@@ -75,7 +75,7 @@ export default function LoginPage() {
           setCookie("user_name", farmerName, 7);
 
           // Use window.location for hard redirect
-          window.location.href = "/farmers/dashboard";
+          window.location.href = "/components/farmers/dashboard";
         } else if (
           data.userType === "admin" ||
           data.userType === "super_admin"
