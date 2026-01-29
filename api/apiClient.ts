@@ -1,8 +1,7 @@
 // API Base URL - Change this if your backend runs on a different port
 export const API_BASE_URL =
   // process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-  process.env.NEXT_PUBLIC_API_URL ||
-  "https://insuredricescanwebapp-backend.onrender.com";
+  process.env.NEXT_PUBLIC_API_URL;
 
 // Generic API response type
 export interface ApiResponse<T> {
