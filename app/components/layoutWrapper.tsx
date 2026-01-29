@@ -5,7 +5,6 @@ import { ReactNode, useEffect, useState } from "react";
 import TopNav from "./TopNav";
 import Sidebar from "./Sidebar";
 import FarmerSidebar from "./farmers/farmerSideBar";
-import FarmerTopNav from "./farmers/farmerTopNav";
 
 interface LayoutWrapperProps {
   children: ReactNode;
@@ -77,7 +76,7 @@ export default function LayoutWrapper({ children }: LayoutWrapperProps) {
       <div className="min-h-screen bg-gray-50 flex">
         <FarmerSidebar />
         <div className="flex-1 lg:ml-64">
-          <FarmerTopNav />
+          <TopNav />
           <main className="p-4 md:p-6 lg:p-8">{children}</main>
         </div>
       </div>
